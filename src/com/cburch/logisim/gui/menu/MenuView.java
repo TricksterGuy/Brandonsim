@@ -109,6 +109,7 @@ class MenuView extends Menu implements ActionListener
 	@Override
 	void computeEnabled()
 	{
-
+	    zoom.setEnabled(true);
+	    grid.setEnabled(true);
 	}
 }

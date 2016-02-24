@@ -80,6 +80,39 @@ public class ProjectExplorer extends JTree implements LocaleListener {
 		}
 	}
 	
+    private class MyCellRenderer extends DefaultTreeCellRenderer {
+        @Override
+        public java.awt.Component getTreeCellRendererComponent(
+                JTree tree, Object value, boolean selected,
+                boolean expanded, boolean leaf, int row,
+                boolean hasFocus) {
+            java.awt.Component ret;
+            ret = super.getTreeCellRendererComponent(tree, value,
+                selected, expanded, leaf, row, hasFocus);
+
+            if (ret instanceof JComponent) {
+                JComponent comp = (JComponent) ret;
+                comp.setToolTipText(null);
+            }
+            if (value instanceof Tool) {
+                Tool tool = (Tool) value;
+                if (ret instanceof JLabel) {
+                    ((JLabel) ret).setText(tool.getDisplayName());
+                    ((JLabel) ret).setIcon(new ToolIcon(tool));
+                    ((JLabel) ret).setToolTipText(tool.getDescription());
+                }
+            } else if (value instanceof Library) {
+                if (ret instanceof JLabel) {
+                    Library lib = (Library) value;
+                    String text = lib.getDisplayName();
+                    if (lib.isDirty()) text += DIRTY_MARKER;
+                    ((JLabel) ret).setText(text);
+                }
+            }
+            return ret;
+        }
+    }
+    
 	public static interface Listener {
 		public void selectionChanged(Event event);
 		public void doubleClicked(Event event);
@@ -250,38 +283,7 @@ public class ProjectExplorer extends JTree implements LocaleListener {
 		}
 	}
 
-	private class MyCellRenderer extends DefaultTreeCellRenderer {
-		@Override
-		public java.awt.Component getTreeCellRendererComponent(
-				JTree tree, Object value, boolean selected,
-				boolean expanded, boolean leaf, int row,
-				boolean hasFocus) {
-			java.awt.Component ret;
-			ret = super.getTreeCellRendererComponent(tree, value,
-				selected, expanded, leaf, row, hasFocus);
 
-			if (ret instanceof JComponent) {
-				JComponent comp = (JComponent) ret;
-				comp.setToolTipText(null);
-			}
-			if (value instanceof Tool) {
-				Tool tool = (Tool) value;
-				if (ret instanceof JLabel) {
-					((JLabel) ret).setText(tool.getDisplayName());
-					((JLabel) ret).setIcon(new ToolIcon(tool));
-					((JLabel) ret).setToolTipText(tool.getDescription());
-				}
-			} else if (value instanceof Library) {
-				if (ret instanceof JLabel) {
-					Library lib = (Library) value;
-					String text = lib.getDisplayName();
-					if (lib.isDirty()) text += DIRTY_MARKER;
-					((JLabel) ret).setText(text);
-				}
-			}
-			return ret;
-		}
-	}
 
 	private class MySelectionModel extends DefaultTreeSelectionModel {
 		@Override

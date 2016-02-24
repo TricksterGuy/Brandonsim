@@ -104,12 +104,16 @@ public class VerticalSplitPane extends JPanel {
 	}
 	
 	public double getFraction() {
+        if (fraction == 0.0 || fraction == 1.0)
+            fraction = 0.5;
 		return fraction;
 	}
 	
 	public void setFraction(double value) {
 		if (value < 0.0) value = 0.0;
 		if (value > 1.0) value = 1.0;
+		if (value == 0.0 || value == 1.0)
+		    return;
 		if (fraction != value) {
 			fraction = value;
 			revalidate();

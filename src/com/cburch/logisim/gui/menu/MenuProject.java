@@ -51,7 +51,7 @@ class MenuProject extends Menu {
 	private MenuItemImpl appearance = new MenuItemImpl(this, LogisimMenuBar.EDIT_APPEARANCE);
 	private MenuItemImpl viewToolbox = new MenuItemImpl(this, LogisimMenuBar.VIEW_TOOLBOX);
 	private MenuItemImpl viewSimulation = new MenuItemImpl(this, LogisimMenuBar.VIEW_SIMULATION);
-	private MenuItemImpl analyze = new MenuItemImpl(this, LogisimMenuBar.ANALYZE_CIRCUIT);
+	//private MenuItemImpl analyze = new MenuItemImpl(this, LogisimMenuBar.ANALYZE_CIRCUIT);
 	private MenuItemImpl stats = new MenuItemImpl(this, LogisimMenuBar.CIRCUIT_STATS);
 	private JMenuItem options = new JMenuItem();
 
@@ -72,7 +72,7 @@ class MenuProject extends Menu {
 		menubar.registerItem(LogisimMenuBar.EDIT_APPEARANCE, appearance);
 		menubar.registerItem(LogisimMenuBar.VIEW_TOOLBOX, viewToolbox);
 		menubar.registerItem(LogisimMenuBar.VIEW_SIMULATION, viewSimulation);
-		menubar.registerItem(LogisimMenuBar.ANALYZE_CIRCUIT, analyze);
+		///menubar.registerItem(LogisimMenuBar.ANALYZE_CIRCUIT, analyze);
 		menubar.registerItem(LogisimMenuBar.CIRCUIT_STATS, stats);
 		options.addActionListener(myListener);
 		
@@ -95,7 +95,7 @@ class MenuProject extends Menu {
 		add(layout);
 		add(appearance);
 		addSeparator();
-		add(analyze);
+		//add(analyze);
 		add(stats);
 		addSeparator();
 		add(options);
@@ -127,7 +127,7 @@ class MenuProject extends Menu {
 		appearance.setText(Strings.get("projectEditCircuitAppearanceItem"));
 		viewToolbox.setText(Strings.get("projectViewToolboxItem"));
 		viewSimulation.setText(Strings.get("projectViewSimulationItem"));
-		analyze.setText(Strings.get("projectAnalyzeCircuitItem"));
+		//analyze.setText(Strings.get("projectAnalyzeCircuitItem"));
 		stats.setText(Strings.get("projectGetCircuitStatisticsItem"));
 		options.setText(Strings.get("projectOptionsItem"));
 	}
@@ -145,7 +145,7 @@ class MenuProject extends Menu {
 				|| appearance.hasListeners()
 				|| viewToolbox.hasListeners()
 				|| viewSimulation.hasListeners()
-				|| analyze.hasListeners()
+				//|| analyze.hasListeners()
 				|| stats.hasListeners());
 		menubar.fireEnableChanged();
 	}

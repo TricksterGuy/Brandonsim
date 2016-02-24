@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JCheckBoxMenuItem;
 
 class MenuItemCheckImpl extends JCheckBoxMenuItem implements MenuItem {
+	private static final long serialVersionUID = 1L;
 	private MenuItemHelper helper;
 	
 	public MenuItemCheckImpl(Menu menu, LogisimMenuItem menuItem) {

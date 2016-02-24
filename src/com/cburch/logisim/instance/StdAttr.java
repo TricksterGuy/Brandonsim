@@ -34,6 +34,9 @@ public interface StdAttr {
 	public static final Attribute<AttributeOption> EDGE_TRIGGER
 		= Attributes.forOption("trigger", Strings.getter("stdTriggerAttr"),
 			new AttributeOption[] { TRIG_RISING, TRIG_FALLING });
+	public static final Attribute<AttributeOption> LEVEL_TRIGGER
+	= Attributes.forOption("trigger", Strings.getter("stdTriggerAttr"),
+		new AttributeOption[] { TRIG_HIGH, TRIG_LOW });
 
 	public static final Attribute<String> LABEL
 		= Attributes.forString("label", Strings.getter("stdLabelAttr"));

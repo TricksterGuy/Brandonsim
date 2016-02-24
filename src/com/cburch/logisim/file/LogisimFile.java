@@ -300,7 +300,6 @@ public class LogisimFile extends Library implements LibraryEventSource {
 	//
 	void write(OutputStream out, LibraryLoader loader) throws IOException {
 		try {
-			System.out.println("HELLO");
 			XmlWriter.write(this, out, loader);
 		} catch (TransformerConfigurationException e) {
 			loader.showError("internal error configuring transformer");

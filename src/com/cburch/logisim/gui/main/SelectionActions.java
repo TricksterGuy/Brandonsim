@@ -264,7 +264,6 @@ public class SelectionActions {
 		ArrayList<Library> libs = new ArrayList<Library>();
 		libs.add(file);
 		libs.addAll(file.getLibraries());
-		
 		ArrayList<String> dropped = null; 
 		Clipboard clip = Clipboard.get();
 		Collection<Component> comps = clip.getComponents();

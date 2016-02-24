@@ -27,6 +27,7 @@ import javax.swing.event.ChangeListener;
 
 import com.cburch.draw.toolbar.Toolbar;
 import com.cburch.draw.toolbar.ToolbarModel;
+import com.cburch.logisim.Main;
 import com.cburch.logisim.circuit.Circuit;
 import com.cburch.logisim.circuit.CircuitEvent;
 import com.cburch.logisim.circuit.CircuitListener;
@@ -384,7 +385,7 @@ public class Frame extends LFrame implements LocaleListener {
 		} else {
 			s = StringUtil.format(Strings.get("titleFileKnown"), name);
 		}
-		this.setTitle(s.replace("Logisim", "Brandonsim"));
+		this.setTitle(s.replace("Logisim", "Brandonsim: " + Main.VERSION_NAME));
 		myProjectListener.enableSave();
 	}
 	
@@ -453,8 +454,6 @@ public class Frame extends LFrame implements LocaleListener {
 		if (loc != null) {
 			AppPreferences.WINDOW_LOCATION.set(loc.x + "," + loc.y);
 		}
-		AppPreferences.WINDOW_LEFT_SPLIT.set(Double.valueOf(leftRegion.getFraction()));
-		AppPreferences.WINDOW_MAIN_SPLIT.set(Double.valueOf(mainRegion.getFraction()));
 		AppPreferences.DIALOG_DIRECTORY.set(JFileChoosers.getCurrentDirectory());
 	}
 	

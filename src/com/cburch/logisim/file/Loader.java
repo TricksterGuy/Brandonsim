@@ -181,13 +181,16 @@ public class Loader implements LibraryLoader {
 		}
 		
 		File backup = determineBackupName(dest);
+		System.out.println("Creating backup " + backup.getAbsolutePath());
 		boolean backupCreated = backup != null && dest.renameTo(backup);
+		System.out.println("backupCreated " + backupCreated);
 		
 		FileOutputStream fwrite = null;
 		try {
 			try {
 				MacCompatibility.setFileCreatorAndType(dest, "LGSM", "circ");
 			} catch (IOException e) { }
+			System.out.println("Trying to write " + dest.getAbsolutePath());
 			fwrite = new FileOutputStream(dest);
 			file.write(fwrite, this);
 			file.setName(toProjectName(dest));
@@ -195,48 +198,68 @@ public class Loader implements LibraryLoader {
 			File oldFile = getMainFile();
 			setMainFile(dest);
 			LibraryManager.instance.fileSaved(this, dest, oldFile, file);
+			System.out.println("write successfull");
 		} catch (IOException e) {
-			if (backupCreated) recoverBackup(backup, dest);
-			if (dest.exists() && dest.length() == 0) dest.delete();
+		    e.printStackTrace();
+		    System.out.println("Oops " + e);
+			if (backupCreated) {System.out.println("attempting recovery from " + backup.getAbsolutePath()); recoverBackup(backup, dest); };
+			if (dest.exists() && dest.length() == 0) {System.out.println("Oops empty file created " + dest.getAbsolutePath()); dest.delete();};
 			JOptionPane.showMessageDialog(parent,
 				StringUtil.format(Strings.get("fileSaveError"),
 					e.toString()),
 				Strings.get("fileSaveErrorTitle"),
 				JOptionPane.ERROR_MESSAGE);
+			System.out.println("Save failed");
 			return false;
-		} finally {
+		} 
+		catch (Exception e) {
+		    e.printStackTrace();
+		    System.out.println("Oops caught e " + e);
+		}
+		finally {
 			if (fwrite != null) {
 				try {
+				    System.out.println("Attempting close");
 					fwrite.close();
 				} catch (IOException e) {
-					if (backupCreated) recoverBackup(backup, dest);
-					if (dest.exists() && dest.length() == 0) dest.delete();
+				    System.out.println("Oops close failed");
+		            if (backupCreated) {System.out.println("attempting recovery from " + backup.getAbsolutePath()); recoverBackup(backup, dest); };
+		            if (dest.exists() && dest.length() == 0) {System.out.println("Oops empty file created " + dest.getAbsolutePath()); dest.delete();};
 					JOptionPane.showMessageDialog(parent,
 						StringUtil.format(Strings.get("fileSaveCloseError"),
 							e.toString()),
 						Strings.get("fileSaveErrorTitle"),
 						JOptionPane.ERROR_MESSAGE);
+					System.out.println("Save failed");
 					return false;
 				}
 			}
 		}
-		
+		System.out.println("Checking if dest is valid " + dest.getAbsolutePath());
 		if (!dest.exists() || dest.length() == 0) {
+		    System.out.println("Dest is not valid exists: " + dest.exists() + " length0:" + (dest.length() == 0));
 			if (backupCreated && backup != null && backup.exists()) {
+			    System.out.println("backup exists using it attempting recovery.");
 				recoverBackup(backup, dest);
 			} else {
+			    System.out.println("Deleting destination file.");
 				dest.delete();
 			}
 			JOptionPane.showMessageDialog(parent,
-					Strings.get("fileSaveZeroError"),
+                    Strings.get("fileSaveZeroError"),
 					Strings.get("fileSaveErrorTitle"),
 					JOptionPane.ERROR_MESSAGE);
+			System.out.println("Save failed");
 			return false;
 		}
 		
+		System.out.println("dest is valid.");
+		
 		if (backupCreated && backup.exists()) {
+		    System.out.println("deleting backup");
 			backup.delete();
 		}
+		System.out.println("Save successful.");
 		return true;
 	}
 	

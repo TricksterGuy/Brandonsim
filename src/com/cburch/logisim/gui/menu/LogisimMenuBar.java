@@ -23,6 +23,19 @@ import com.cburch.logisim.util.LocaleManager;
 import com.cburch.logisim.util.WindowMenu;
 
 public class LogisimMenuBar extends JMenuBar {
+
+    private class MyListener implements LocaleListener {
+        public void localeChanged() {
+            file.localeChanged();
+            edit.localeChanged();
+            if (view != null)
+                view.localeChanged();
+            project.localeChanged();
+            simulate.localeChanged();
+            help.localeChanged();
+        }
+    }
+    
 	public static final LogisimMenuItem PRINT = new LogisimMenuItem("Print");
 	public static final LogisimMenuItem EXPORT_IMAGE = new LogisimMenuItem("ExportImage");
 	public static final LogisimMenuItem CUT = new LogisimMenuItem("Cut");
@@ -55,18 +68,6 @@ public class LogisimMenuBar extends JMenuBar {
 	public static final LogisimMenuItem SIMULATE_STEP = new LogisimMenuItem("SimulateStep");
 	public static final LogisimMenuItem TICK_ENABLE = new LogisimMenuItem("TickEnable");
 	public static final LogisimMenuItem TICK_STEP = new LogisimMenuItem("TickStep");
-
-	private class MyListener implements LocaleListener {
-		public void localeChanged() {
-			file.localeChanged();
-			edit.localeChanged();
-			if (view != null)
-				view.localeChanged();
-			project.localeChanged();
-			simulate.localeChanged();
-			help.localeChanged();
-		}
-	}
 	
 	private JFrame parent;
 	private MyListener listener;

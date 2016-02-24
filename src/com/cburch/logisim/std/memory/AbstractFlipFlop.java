@@ -32,13 +32,18 @@ abstract class AbstractFlipFlop extends InstanceFactory {
 	
 	protected AbstractFlipFlop(String name, String iconName, StringGetter desc,
 			int numInputs, boolean allowLevelTriggers) {
+		this(name, iconName, desc, numInputs, allowLevelTriggers, false);
+	}
+	
+	protected AbstractFlipFlop(String name, String iconName, StringGetter desc,
+			int numInputs, boolean allowLevelTriggers, boolean onlyOneType) {
 		super(name, desc);
 		setIconName(iconName);
-		triggerAttribute = allowLevelTriggers ? StdAttr.TRIGGER : StdAttr.EDGE_TRIGGER;
+		triggerAttribute = !allowLevelTriggers ? StdAttr.EDGE_TRIGGER : (!onlyOneType ? StdAttr.TRIGGER : StdAttr.LEVEL_TRIGGER);
 		setAttributes(new Attribute[] {
 				triggerAttribute, StdAttr.LABEL, StdAttr.LABEL_FONT
 			}, new Object[] {
-				StdAttr.TRIG_RISING, "", StdAttr.DEFAULT_LABEL_FONT
+				triggerAttribute != StdAttr.LEVEL_TRIGGER ? StdAttr.TRIG_RISING : StdAttr.TRIG_HIGH, "", StdAttr.DEFAULT_LABEL_FONT
 			});
 		setOffsetBounds(Bounds.create(-40, -10, 40, 40));
 		setInstancePoker(Poker.class);
@@ -60,7 +65,7 @@ abstract class AbstractFlipFlop extends InstanceFactory {
 		ps[numInputs + 3] = new Port(-10, 30, Port.INPUT,  1);
 		ps[numInputs + 4] = new Port(-30, 30, Port.INPUT,  1);
 		ps[numInputs + 5] = new Port(-20, 30, Port.INPUT,  1);
-		ps[numInputs].setToolTip(Strings.getter("flipFlopClockTip"));
+		ps[numInputs].setToolTip(triggerAttribute == StdAttr.LEVEL_TRIGGER ? Strings.getter("Write Enable on trigger") : Strings.getter("flipFlopClockTip"));
 		ps[numInputs + 1].setToolTip(Strings.getter("flipFlopQTip"));
 		ps[numInputs + 2].setToolTip(Strings.getter("flipFlopNotQTip"));
 		ps[numInputs + 3].setToolTip(Strings.getter("flipFlopResetTip"));
@@ -155,7 +160,12 @@ abstract class AbstractFlipFlop extends InstanceFactory {
 		for (int i = 0; i < n; i++) {
 			painter.drawPort(i, getInputName(i), Direction.EAST);
 		}
-		painter.drawClock(n, Direction.EAST);
+
+		if (triggerAttribute == StdAttr.TRIGGER || triggerAttribute == StdAttr.EDGE_TRIGGER)
+			painter.drawClock(n, Direction.EAST);
+		else
+			painter.drawPort(n, "WE", Direction.EAST);
+		
 		painter.drawPort(n + 1, "Q", Direction.WEST);
 		painter.drawPort(n + 2);
 	}

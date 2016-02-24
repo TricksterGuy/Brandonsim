@@ -80,8 +80,7 @@ class XmlWriter {
 	Element fromLogisimFile() {
 		Element ret = doc.createElement("project");
 		doc.appendChild(ret);
-		ret.appendChild(doc.createTextNode("\nThis file is intended to be "
-				+ "loaded by Brandonsim.  Distributed as part of CS2110.\n"));
+		ret.appendChild(doc.createTextNode("\nThis file is intended to be loaded by Brandonsim v2.7.5.  Distributed as part of CS2110.\n"));
 		ret.setAttribute("version", "1.0");
 		ret.setAttribute("source", Main.VERSION_NAME);
 

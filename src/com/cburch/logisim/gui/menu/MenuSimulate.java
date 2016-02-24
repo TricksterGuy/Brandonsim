@@ -207,8 +207,8 @@ class MenuSimulate extends Menu {
 			tickFreq.add(tickFreqs[i]);
 		}
 
-		add(run);
-		add(reset);
+        add(run);
+        add(reset);
 		add(step);
 		addSeparator();
 		add(upStateMenu);
